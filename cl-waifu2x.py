@@ -124,12 +124,17 @@ __kernel void convolve_many(
         return int(self.ops_per_pixel * self.total_pixels / self.total_time)
 
 infile, outfile, modelpath = sys.argv[1:]
+scale = "scale" in modelpath
 
 ctx = cl.create_some_context()
 nn = OpenCLNN(ctx, modelpath)
 
 im = Image.open(infile).convert("YCbCr")
-im = misc.fromimage(im.resize((2*im.size[0], 2*im.size[1]), resample=Image.NEAREST)).astype("float32")
+
+if scale:
+    im = im.resize((2*im.size[0], 2*im.size[1]), resample=Image.NEAREST)
+
+im = misc.fromimage(im).astype("float32")
 
 in_plane = np.float32(im[:,:,0] / 255.0)
 def progress(frac):
