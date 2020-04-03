@@ -45,10 +45,10 @@ class CLNN_Base(object):
 
         total_pixels = bh * bw * ((h+bh-pad-1)//(bh-pad)) * ((w+bw-pad-1)//(bw-pad))
         done_pixels = 0
-        for by in xrange(0, h, bh-pad):
+        for by in range(0, h, bh-pad):
             bh_i = min(bh, h+pad-by)
             bh_o = min(bh-pad, h-by)
-            for bx in xrange(0, w, bw-pad):
+            for bx in range(0, w, bw-pad):
                 bw_i = min(bw, w+pad-bx)
                 bw_o = min(bw-pad, w-bx)
                 block = src[by:by+bh_i,bx:bx+bw_i]
