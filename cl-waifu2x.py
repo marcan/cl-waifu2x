@@ -46,7 +46,7 @@ im = Image.open(infile)
 if scale:
     im = im.resize((2*im.size[0], 2*im.size[1]), resample=Image.NEAREST)
 
-im = np.clip(misc.fromimage(im).astype("float32") / 255.0, 0, 1)
+im = np.clip(np.asarray(im).astype("float32") / 255.0, 0, 1)
 
 channels = im.shape[2]
 
@@ -92,5 +92,5 @@ if channels == 4:
 
 im = np.clip(np.round(im * 255), 0, 255).astype("uint8")
 
-im = misc.toimage(im, mode=("RGBA" if channels == 4 else "RGB"))
+im = Image.fromarray(im, mode=("RGBA" if channels == 4 else "RGB"))
 im.save(outfile)
